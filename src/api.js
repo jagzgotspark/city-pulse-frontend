@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:8000/api';
+const BASE_URL = 'https://city-pulse-production-5856.up.railway.app/api';
 
 export const getDashboard = async () => {
   const response = await axios.get(`${BASE_URL}/dashboard`);
