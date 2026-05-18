@@ -29,6 +29,34 @@ function App() {
 
   if (loading) return <p style={{ padding: '40px' }}>Loading City Pulse...</p>;
   if (error) return <p style={{ padding: '40px', color: 'red' }}>Error: {error}</p>;
+  if (loading) return (
+  <div style={{
+    padding: '40px',
+    fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif',
+    backgroundColor: '#f1f5f9',
+    minHeight: '100vh',
+    maxWidth: '1100px',
+    margin: '0 auto'
+  }}>
+    <h1 style={{ fontSize: '36px', fontWeight: '800', margin: 0 }}>🌆 City Pulse</h1>
+    <p style={{ color: '#64748b', marginTop: '8px' }}>Generating city summaries...</p>
+    <div style={{
+      display: 'grid',
+      gridTemplateColumns: 'repeat(3, 1fr)',
+      gap: '20px',
+      marginTop: '32px'
+    }}>
+      {[1, 2, 3].map(i => (
+        <div key={i} style={{
+          height: '300px',
+          backgroundColor: '#e2e8f0',
+          borderRadius: '16px',
+          opacity: 0.6
+        }} />
+      ))}
+    </div>
+  </div>
+);
 
   return (
     <div style={{
@@ -75,5 +103,7 @@ function App() {
     </div>
   );
 }
+
+
 
 export default App;

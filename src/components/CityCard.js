@@ -20,23 +20,30 @@ function CityCard({ city, onClick }) {
       onClick={() => onClick(city)}
       style={{
         border: `2px solid ${color}`,
-        borderRadius: '12px',
-        padding: '20px',
+        borderRadius: '16px',
+        padding: '24px',
         cursor: 'pointer',
-        transition: 'transform 0.2s',
-        backgroundColor: '#ffffff'
+        transition: 'all 0.2s',
+        backgroundColor: '#ffffff',
+        boxShadow: '0 2px 8px rgba(0,0,0,0.06)'
       }}
-      onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.02)'}
-      onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
+      onMouseEnter={e => {
+        e.currentTarget.style.transform = 'translateY(-4px)';
+        e.currentTarget.style.boxShadow = '0 8px 24px rgba(0,0,0,0.12)';
+      }}
+      onMouseLeave={e => {
+        e.currentTarget.style.transform = 'translateY(0)';
+        e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.06)';
+      }}
     >
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <h2 style={{ margin: 0, fontSize: '20px' }}>{city.city}</h2>
+        <h2 style={{ margin: 0, fontSize: '22px', fontWeight: '700' }}>{city.city}</h2>
         <div style={{
           backgroundColor: color,
           color: 'white',
           borderRadius: '20px',
           padding: '4px 12px',
-          fontSize: '13px',
+          fontSize: '12px',
           fontWeight: '600'
         }}>
           {getPulseLabel(city.pulse_score)}
@@ -45,17 +52,30 @@ function CityCard({ city, onClick }) {
 
       <PulseGauge score={city.pulse_score} size={140} />
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginTop: '12px' }}>
-        <div style={{ color: '#555', fontSize: '14px' }}>
-          🌡️ {city.temperature}°C
-        </div>
-        <div style={{ color: '#555', fontSize: '14px' }}>
-          🌤️ {city.condition}
-        </div>
-        <div style={{ color: '#555', fontSize: '14px' }}>
-          💨 AQI {city.aqi}
-        </div>
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr',
+        gap: '8px',
+        margin: '12px 0'
+      }}>
+        <div style={{ color: '#555', fontSize: '14px' }}>🌡️ {city.temperature}°C</div>
+        <div style={{ color: '#555', fontSize: '14px' }}>🌤️ {city.condition}</div>
+        <div style={{ color: '#555', fontSize: '14px' }}>💨 AQI {city.aqi}</div>
       </div>
+
+      {city.summary && (
+        <p style={{
+          fontSize: '13px',
+          color: '#666',
+          fontStyle: 'italic',
+          margin: '12px 0 0',
+          lineHeight: '1.5',
+          borderTop: '1px solid #f0f0f0',
+          paddingTop: '12px'
+        }}>
+          "{city.summary}"
+        </p>
+      )}
     </div>
   );
 }
