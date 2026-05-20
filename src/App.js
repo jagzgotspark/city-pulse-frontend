@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { getDashboard } from './api';
 import CityCard from './components/CityCard';
 import HistoryChart from './components/HistoryChart';
+import CityMap from './components/CityMap';
 
 function App() {
   const [dashboard, setDashboard] = useState(null);
@@ -77,6 +78,10 @@ function App() {
         <p style={{ color: '#22c55e', fontSize: '12px', margin: 0 }}>
           ● Live — updates every 15 minutes
         </p>
+      </div>
+
+      <div style={{ marginBottom: '32px' }}>
+        <CityMap cities={dashboard ? dashboard.cities : []} />
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px' }}>
