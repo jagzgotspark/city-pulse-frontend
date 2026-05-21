@@ -20,7 +20,8 @@ function getPulseClass(score) {
 
 function CityMap({ cities }) {
   return (
-    <div style={{ position: 'relative', height: '500px', borderRadius: '16px', overflow: 'hidden' }}>
+    <div style={{ position: 'relative', height: '50vh', borderRadius: '16px', overflow: 'hidden' }}>
+
       <MapContainer
         center={[22.5, 80.9]}
         zoom={4}
@@ -67,42 +68,87 @@ function CityMap({ cities }) {
               </div>
             </Tooltip>
             <Popup>
-              <div style={{ textAlign: 'center', minWidth: '140px' }}>
-                <strong style={{ fontSize: '16px' }}>{city.city}</strong>
+              <div style={{
+                textAlign: 'center',
+                minWidth: '160px',
+                fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif'
+              }}>
                 <div style={{
-                  fontSize: '28px',
+                  fontSize: '18px',
                   fontWeight: '700',
-                  color: getPulseColor(city.pulse_score),
-                  margin: '4px 0'
-                }}>
-                  {city.pulse_score}
-                  <span style={{ fontSize: '14px', color: '#999', fontWeight: '400' }}>/100</span>
-                </div>
-                <div style={{ fontSize: '13px', color: '#555' }}>
-                  🌡️ {city.temperature}°C
-                </div>
-                <div style={{ fontSize: '13px', color: '#555' }}>
-                  💨 AQI {city.aqi}
-                </div>
-                <div style={{ fontSize: '13px', color: '#555' }}>
-                  🌤️ {city.condition}
-                </div>
-                {city.summary && (
-                  <p style={{
-                    fontSize: '12px',
-                    fontStyle: 'italic',
-                    color: '#666',
-                    marginTop: '8px',
-                    lineHeight: '1.5'
-                  }}>
-                    "{city.summary}"
-                  </p>
-                )}
+                  marginBottom: '8px',
+                  borderBottom: '1px solid #f0f0f0',
+                  paddingBottom: '8px'
+              }}>
+                {city.city}
               </div>
-            </Popup>
+
+              <div style={{
+                fontSize: '36px',
+                fontWeight: '800',
+                color: getPulseColor(city.pulse_score),
+                lineHeight: 1
+          }}>
+            {city.pulse_score}
+            <span style={{ fontSize: '14px', color: '#999', fontWeight: '400' }}>/100</span>
+          </div>
+
+          <div style={{
+            display: 'inline-block',
+            backgroundColor: getPulseColor(city.pulse_score),
+            color: 'white',
+            borderRadius: '12px',
+            padding: '2px 10px',
+            fontSize: '11px',
+            fontWeight: '600',
+            margin: '6px 0 10px'
+          }}>
+            {city.pulse_score >= 70 ? 'High Energy' : city.pulse_score >= 40 ? 'Moderate' : 'Low Energy'}
+          </div>
+
+          <div style={{ fontSize: '13px', color: '#444', lineHeight: '1.8' }}>
+            <div>🌡️ {city.temperature}°C</div>
+            <div>🌤️ {city.condition}</div>
+            <div>💨 AQI {city.aqi}</div>
+          </div>
+
+          {city.summary && (
+            <p style={{
+              fontSize: '12px',
+              fontStyle: 'italic',
+              color: '#666',
+              marginTop: '10px',
+              lineHeight: '1.5',
+              borderTop: '1px solid #f0f0f0',
+              paddingTop: '8px',
+              marginBottom: 0
+          }}>
+            "{city.summary}"
+          </p>
+        )}
+    </div>
+  </Popup>
           </CircleMarker>
         ))}
       </MapContainer>
+
+      <div style={{
+        position: 'absolute',
+        top: '16px',
+        left: '16px',
+        backgroundColor: 'rgba(0,0,0,0.7)',
+        borderRadius: '8px',
+        padding: '8px 14px',
+        zIndex: 1000,
+        backdropFilter: 'blur(4px)'
+      }}>
+        <div style={{ color: 'white', fontWeight: '700', fontSize: '14px' }}>
+          🌆 City Pulse — Live
+        </div>
+        <div style={{ color: '#22c55e', fontSize: '11px', marginTop: '2px' }}>
+          ● Updates every 15 minutes
+        </div>
+      </div>
 
       {/* Legend overlay */}
       <div style={{
