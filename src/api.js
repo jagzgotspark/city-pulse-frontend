@@ -31,3 +31,13 @@ export const getCityComparison = async (days = 7) => {
   const response = await axios.get(`${BASE_URL}/comparison?days=${days}`);
   return response.data;
 };
+
+export const getCityForecast = async (cityName) => {
+  const response = await axios.get(`${BASE_URL}/forecast/${cityName}`);
+  return response.data;
+};
+
+export const getAllForecasts = async () => {
+  const response = await axios.get(`${BASE_URL}/forecast`);
+  return response.data;
+};

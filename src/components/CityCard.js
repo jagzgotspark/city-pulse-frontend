@@ -12,7 +12,7 @@ function getPulseLabel(score) {
   return 'Low Energy';
 }
 
-function CityCard({ city, onClick }) {
+function CityCard({ city, onClick, forecast}) {
   const color = getPulseColor(city.pulse_score);
 
   return (
@@ -62,6 +62,30 @@ function CityCard({ city, onClick }) {
         <div style={{ color: '#555', fontSize: '14px' }}>🌤️ {city.condition}</div>
         <div style={{ color: '#555', fontSize: '14px' }}>💨 AQI {city.aqi}</div>
       </div>
+
+      {forecast && (
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          marginTop: '10px',
+          padding: '8px 12px',
+          backgroundColor: '#f8fafc',
+          borderRadius: '8px'
+        }}>
+          <span style={{ fontSize: '12px', color: '#94a3b8' }}>Next hour:</span>
+          <span style={{
+            fontSize: '14px',
+            fontWeight: '700',
+            color: forecast.trend === 'improving' ? '#22c55e' : '#ef4444'
+          }}>
+            {forecast.trend === 'improving' ? '↑' : '↓'} {forecast.predicted_next}
+          </span>
+          <span style={{ fontSize: '11px', color: '#94a3b8' }}>
+            {forecast.trend}
+          </span>
+        </div>
+      )}
 
       {city.summary && (
         <p style={{

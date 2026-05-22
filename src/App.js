@@ -5,6 +5,8 @@ import TrendChart from './components/TrendChart';
 import CityMap from './components/CityMap';
 import CitySearch from './components/CitySearch';
 import CityComparison from './components/CityComparison';
+import ForecastChart from './components/ForecastChart';
+import { getAllForecasts } from './api';
 
 function App() {
   const [dashboard, setDashboard] = useState(null);
@@ -13,6 +15,7 @@ function App() {
   const [selectedCity, setSelectedCity] = useState(null);
   const [searchedCities, setSearchedCities] = useState([]);
   const [flyTo, setFlyTo] = useState(null);
+  const [forecasts, setForecasts] = useState({});
 
   useEffect(() => {
     const fetchData = () => {
@@ -29,6 +32,16 @@ function App() {
     fetchData();
     const interval = setInterval(fetchData, 60000);
     return () => clearInterval(interval);
+
+    getAllForecasts()
+      .then(data => {
+        const forecastMap = {};
+        data.forecasts.forEach(f => {
+          forecastMap[f.city] = f;
+        });
+        setForecasts(forecastMap);
+      })
+      .catch(() => {});
   }, []);
 
   const handleCityFound = (city) => {
@@ -108,6 +121,7 @@ function App() {
             key={city.city}
             city={city}
             onClick={setSelectedCity}
+            forecast={forecasts[city.city]} 
           />
         ))}
       </div>
@@ -121,6 +135,9 @@ function App() {
           boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
         }}>
           <TrendChart cityName={selectedCity.city} />
+          <ForecastChart 
+            cityName={selectedCity.city}
+            currentScore={selectedCity.pulse_score} />
         </div>
       )}
       <CityComparison />
