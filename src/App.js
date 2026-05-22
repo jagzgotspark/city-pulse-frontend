@@ -4,6 +4,7 @@ import CityCard from './components/CityCard';
 import TrendChart from './components/TrendChart';
 import CityMap from './components/CityMap';
 import CitySearch from './components/CitySearch';
+import CityComparison from './components/CityComparison';
 
 function App() {
   const [dashboard, setDashboard] = useState(null);
@@ -122,6 +123,7 @@ function App() {
           <TrendChart cityName={selectedCity.city} />
         </div>
       )}
+      <CityComparison />
     </div>
   );
 }

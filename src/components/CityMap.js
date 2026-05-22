@@ -35,8 +35,9 @@ function CityMap({ cities, flyTo }) {
 
       <MapContainer
         center={[22.5, 80.9]}
-        zoom={4}
+        zoom={4.5}
         style={{ height: '100%', width: '100%' }}
+        whenCreated={map => setTimeout(() => map.invalidateSize(), 100)}
         zoomControl={true}
       >
         <TileLayer
