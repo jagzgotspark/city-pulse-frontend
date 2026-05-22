@@ -3,12 +3,15 @@ import { getDashboard } from './api';
 import CityCard from './components/CityCard';
 import HistoryChart from './components/HistoryChart';
 import CityMap from './components/CityMap';
+import CitySearch from './components/CitySearch';
 
 function App() {
   const [dashboard, setDashboard] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedCity, setSelectedCity] = useState(null);
+  const [searchedCities, setSearchedCities] = useState([]);
+  const [flyTo, setFlyTo] = useState(null);
 
   useEffect(() => {
     const fetchData = () => {
@@ -22,42 +25,54 @@ function App() {
           setLoading(false);
         });
     };
-
     fetchData();
     const interval = setInterval(fetchData, 60000);
     return () => clearInterval(interval);
   }, []);
 
-  if (loading) return <p style={{ padding: '40px' }}>Loading City Pulse...</p>;
-  if (error) return <p style={{ padding: '40px', color: 'red' }}>Error: {error}</p>;
+  const handleCityFound = (city) => {
+    const alreadyInDashboard = dashboard?.cities?.find(
+      c => c.city.toLowerCase() === city.city.toLowerCase()
+    );
+
+    if (!alreadyInDashboard) {
+      setSearchedCities(prev => {
+        const exists = prev.find(c => c.city === city.city);
+        if (exists) return prev.map(c => c.city === city.city ? city : c);
+        return [...prev, city];
+      });
+    }
+
+    if (city.lat && city.lon) {
+      setFlyTo({ lat: city.lat, lon: city.lon });
+    }
+  };
+
   if (loading) return (
-  <div style={{
-    padding: '40px',
-    fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif',
-    backgroundColor: '#f1f5f9',
-    minHeight: '100vh',
-    maxWidth: '1100px',
-    margin: '0 auto'
-  }}>
-    <h1 style={{ fontSize: '36px', fontWeight: '800', margin: 0 }}>🌆 City Pulse</h1>
-    <p style={{ color: '#64748b', marginTop: '8px' }}>Generating city summaries...</p>
     <div style={{
-      display: 'grid',
-      gridTemplateColumns: 'repeat(3, 1fr)',
-      gap: '20px',
-      marginTop: '32px'
+      padding: '40px',
+      fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif',
+      backgroundColor: '#f1f5f9',
+      minHeight: '100vh',
+      maxWidth: '1100px',
+      margin: '0 auto'
     }}>
-      {[1, 2, 3].map(i => (
-        <div key={i} style={{
-          height: '300px',
-          backgroundColor: '#e2e8f0',
-          borderRadius: '16px',
-          opacity: 0.6
-        }} />
-      ))}
+      <h1 style={{ fontSize: '36px', fontWeight: '800', margin: 0 }}>🌆 City Pulse</h1>
+      <p style={{ color: '#64748b', marginTop: '8px' }}>Generating city summaries...</p>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px', marginTop: '32px' }}>
+        {[1, 2, 3].map(i => (
+          <div key={i} style={{ height: '300px', backgroundColor: '#e2e8f0', borderRadius: '16px', opacity: 0.6 }} />
+        ))}
+      </div>
     </div>
-  </div>
-);
+  );
+
+  if (error) return <p style={{ padding: '40px', color: 'red' }}>Error: {error}</p>;
+
+  const allCities = [
+    ...(dashboard ? dashboard.cities : []),
+    ...searchedCities
+  ];
 
   return (
     <div style={{
@@ -73,19 +88,21 @@ function App() {
           🌆 City Pulse
         </h1>
         <p style={{ color: '#64748b', marginTop: '8px', marginBottom: '4px' }}>
-          Real-time city energy scores across India 
+          Real-time city energy scores across India
         </p>
         <p style={{ color: '#22c55e', fontSize: '12px', margin: 0 }}>
           ● Live — updates every 15 minutes
         </p>
       </div>
 
+      <CitySearch onCityFound={handleCityFound} />
+
       <div style={{ marginBottom: '32px' }}>
-        <CityMap cities={dashboard ? dashboard.cities : []} />
+        <CityMap cities={allCities} flyTo={flyTo} />
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px' }}>
-        {dashboard.cities.map(city => (
+        {allCities.map(city => (
           <CityCard
             key={city.city}
             city={city}
@@ -108,7 +125,5 @@ function App() {
     </div>
   );
 }
-
-
 
 export default App;

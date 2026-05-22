@@ -16,3 +16,8 @@ export const getCityHistory = async (cityName, hours = 24) => {
   const response = await axios.get(`${BASE_URL}/history/${cityName}?hours=${hours}`);
   return response.data;
 };
+
+export const searchCity = async (cityName) => {
+  const response = await axios.get(`${BASE_URL}/search/${cityName}`);
+  return response.data;
+};

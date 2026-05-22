@@ -1,4 +1,7 @@
 import { MapContainer, TileLayer, CircleMarker, Popup, Tooltip } from 'react-leaflet';
+import { forwardRef, useImperativeHandle, useRef } from 'react';
+import { useMap } from 'react-leaflet';
+
 
 function getPulseColor(score) {
   if (score >= 70) return '#22c55e';
@@ -18,7 +21,15 @@ function getPulseClass(score) {
   return 'pulse-low';
 }
 
-function CityMap({ cities }) {
+function MapController({ flyTo }) {
+  const map = useMap();
+  if (flyTo) {
+    map.flyTo([flyTo.lat, flyTo.lon], 8, { duration: 1.5 });
+  }
+  return null;
+}
+
+function CityMap({ cities, flyTo }) {
   return (
     <div style={{ position: 'relative', height: '50vh', borderRadius: '16px', overflow: 'hidden' }}>
 
@@ -32,6 +43,7 @@ function CityMap({ cities }) {
           url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
           attribution='© OpenStreetMap contributors © CARTO'
         />
+
         {cities && cities.map(city => (
           <CircleMarker
             key={city.city}
