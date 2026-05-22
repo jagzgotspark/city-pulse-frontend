@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { getDashboard } from './api';
 import CityCard from './components/CityCard';
-import HistoryChart from './components/HistoryChart';
+import TrendChart from './components/TrendChart';
 import CityMap from './components/CityMap';
 import CitySearch from './components/CitySearch';
 
@@ -119,7 +119,7 @@ function App() {
           borderRadius: '12px',
           boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
         }}>
-          <HistoryChart cityName={selectedCity.city} />
+          <TrendChart cityName={selectedCity.city} />
         </div>
       )}
     </div>

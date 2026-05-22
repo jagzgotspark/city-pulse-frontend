@@ -21,3 +21,13 @@ export const searchCity = async (cityName) => {
   const response = await axios.get(`${BASE_URL}/search/${cityName}`);
   return response.data;
 };
+
+export const getCityTrend = async (cityName, days = 7) => {
+  const response = await axios.get(`${BASE_URL}/trend/${cityName}?days=${days}`);
+  return response.data;
+};
+
+export const getCityComparison = async (days = 7) => {
+  const response = await axios.get(`${BASE_URL}/comparison?days=${days}`);
+  return response.data;
+};
