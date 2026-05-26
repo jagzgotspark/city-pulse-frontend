@@ -1,4 +1,5 @@
 import PulseGauge from './PulseGauge';
+import { downloadCityCard } from '../utils/generateCityCard';
 
 function getPulseColor(score) {
   if (score >= 70) return '#22c55e';
@@ -100,6 +101,36 @@ function CityCard({ city, onClick, forecast}) {
           "{city.summary}"
         </p>
       )}
+      <div style={{
+        display: 'flex',
+        justifyContent: 'flex-end',
+        marginTop: '12px'
+      }}>
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            downloadCityCard(city);
+          }}
+          style={{
+            padding: '6px 14px',
+            borderRadius: '8px',
+            border: '1px solid #e2e8f0',
+            backgroundColor: 'white',
+            color: '#64748b',
+            fontSize: '12px',
+            fontWeight: '500',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px'
+          }}
+          onMouseEnter={e => e.currentTarget.style.borderColor = '#94a3b8'}
+          onMouseLeave={e => e.currentTarget.style.borderColor = '#e2e8f0'}
+        >
+          📤 Share
+        </button>
+        </div>
+    
     </div>
   );
 }
