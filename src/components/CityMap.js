@@ -1,5 +1,5 @@
 import { MapContainer, TileLayer, CircleMarker, Popup, Tooltip } from 'react-leaflet';
-import { useState } from 'react';
+
 
 
 function getPulseColor(score) {
