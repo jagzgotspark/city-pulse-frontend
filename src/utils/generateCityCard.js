@@ -87,7 +87,8 @@ export function generateCityCard(city) {
   ctx.font = '400 18px Arial, sans-serif';
   ctx.fillText(`${city.temperature}°C`, 36, 382);
   ctx.fillText(`${city.condition}`, 130, 382);
-  ctx.fillText(`AQI ${city.aqi}`, 280, 382);
+  const aqiText = city.real_aqi ? `AQI ${city.real_aqi} · ${city.aqi_label}` : `AQI ${city.aqi}`;
+  ctx.fillText(aqiText, 310, 382);
 
   // Summary
   if (city.summary) {

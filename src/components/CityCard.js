@@ -87,8 +87,29 @@ function CityCard({ city, onClick, forecast}) {
       }}>
         <div style={{ color: '#555', fontSize: '14px' }}>🌡️ {city.temperature}°C</div>
         <div style={{ color: '#555', fontSize: '14px' }}>🌤️ {city.condition}</div>
-        <div style={{ color: '#555', fontSize: '14px' }}>💨 AQI {city.aqi}</div>
-      </div>
+        <div style={{ fontSize: '14px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+          💨
+          {city.real_aqi ? (
+            <>
+              <span style={{ fontWeight: '700', color: city.aqi_color }}>
+                {city.real_aqi}
+              </span>
+              <span style={{
+                fontSize: '11px',
+                backgroundColor: city.aqi_color + '22',
+                color: city.aqi_color,
+                padding: '1px 8px',
+                borderRadius: '10px',
+                fontWeight: '600'
+              }}>
+                {city.aqi_label}
+              </span>
+            </>
+          ) : (
+            <span style={{ color: '#555' }}>AQI {city.aqi}</span>
+          )}
+        </div>
+              </div>
 
       {forecast && (
         <div style={{
