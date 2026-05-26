@@ -1,6 +1,5 @@
 import { MapContainer, TileLayer, CircleMarker, Popup, Tooltip } from 'react-leaflet';
-import { forwardRef, useImperativeHandle, useRef } from 'react';
-import { useMap } from 'react-leaflet';
+import { useState } from 'react';
 
 
 function getPulseColor(score) {
@@ -21,13 +20,6 @@ function getPulseClass(score) {
   return 'pulse-low';
 }
 
-function MapController({ flyTo }) {
-  const map = useMap();
-  if (flyTo) {
-    map.flyTo([flyTo.lat, flyTo.lon], 8, { duration: 1.5 });
-  }
-  return null;
-}
 
 function CityMap({ cities, flyTo }) {
   return (

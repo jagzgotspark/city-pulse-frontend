@@ -42,6 +42,8 @@ function App() {
         setForecasts(forecastMap);
       })
       .catch(() => {});
+
+    return () => clearInterval(interval);
   }, []);
 
   const handleCityFound = (city) => {
