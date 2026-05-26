@@ -1,5 +1,31 @@
 import PulseGauge from './PulseGauge';
-import { downloadCityCard } from '../utils/generateCityCard';
+import { useState } from 'react';
+import { downloadCityCard, copyCityCardToClipboard } from '../utils/generateCityCard';
+
+function ShareButton({ label, onClick }) {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <button
+      onClick={onClick}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        padding: '5px 12px',
+        borderRadius: '8px',
+        border: '1px solid',
+        borderColor: hovered ? '#94a3b8' : '#e2e8f0',
+        backgroundColor: hovered ? '#f8fafc' : 'white',
+        color: '#64748b',
+        fontSize: '12px',
+        fontWeight: '500',
+        cursor: 'pointer',
+        transition: 'all 0.15s'
+      }}
+    >
+      {label}
+    </button>
+  );
+}
 
 function getPulseColor(score) {
   if (score >= 70) return '#22c55e';
@@ -101,36 +127,46 @@ function CityCard({ city, onClick, forecast}) {
           "{city.summary}"
         </p>
       )}
-      <div style={{
-        display: 'flex',
-        justifyContent: 'flex-end',
-        marginTop: '12px'
-      }}>
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            downloadCityCard(city);
-          }}
-          style={{
-            padding: '6px 14px',
-            borderRadius: '8px',
-            border: '1px solid #e2e8f0',
-            backgroundColor: 'white',
-            color: '#64748b',
-            fontSize: '12px',
-            fontWeight: '500',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '6px'
-          }}
-          onMouseEnter={e => e.currentTarget.style.borderColor = '#94a3b8'}
-          onMouseLeave={e => e.currentTarget.style.borderColor = '#e2e8f0'}
-        >
-          📤 Share
-        </button>
+      {/* Share menu */}
+      <div style={{ marginTop: '12px', borderTop: '1px solid #f0f0f0', paddingTop: '12px' }}>
+        <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
+
+          {/* Copy to clipboard */}
+          <ShareButton
+            label="📋 Copy"
+            onClick={async (e) => {
+              e.stopPropagation();
+              try {
+                await copyCityCardToClipboard(city);
+                alert('Image copied to clipboard!');
+              } catch {
+                alert('Copy failed — try downloading instead.');
+              }
+            }}
+          />
+
+          {/* WhatsApp share */}
+          <ShareButton
+            label="💬 WhatsApp"
+            onClick={(e) => {
+              e.stopPropagation();
+              const text = `${city.city} pulse score today: ${city.pulse_score}/100 — ${city.pulse_score >= 70 ? 'High Energy 🟢' : city.pulse_score >= 40 ? 'Moderate 🟡' : 'Low Energy 🔴'}\n\n${city.summary || ''}\n\nCheck City Pulse: https://project-s9n4g.vercel.app`;
+              window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+            }}
+          />
+
+          {/* Download */}
+          <ShareButton
+            label="📤 Download"
+            onClick={(e) => {
+              e.stopPropagation();
+              downloadCityCard(city);
+            }}
+          />
+
         </div>
-    
+      </div>
+          
     </div>
   );
 }
