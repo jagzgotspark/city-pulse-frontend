@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react';
-import { getDashboard } from './api';
+import { getDashboard, getAllForecasts } from './api';
 import CityCard from './components/CityCard';
 import TrendChart from './components/TrendChart';
 import CityMap from './components/CityMap';
 import CitySearch from './components/CitySearch';
 import CityComparison from './components/CityComparison';
 import ForecastChart from './components/ForecastChart';
-import { getAllForecasts } from './api';
 
 function App() {
   const [dashboard, setDashboard] = useState(null);
@@ -29,9 +28,9 @@ function App() {
           setLoading(false);
         });
     };
+
     fetchData();
     const interval = setInterval(fetchData, 60000);
-    return () => clearInterval(interval);
 
     getAllForecasts()
       .then(data => {
@@ -50,7 +49,6 @@ function App() {
     const alreadyInDashboard = dashboard?.cities?.find(
       c => c.city.toLowerCase() === city.city.toLowerCase()
     );
-
     if (!alreadyInDashboard) {
       setSearchedCities(prev => {
         const exists = prev.find(c => c.city === city.city);
@@ -58,7 +56,6 @@ function App() {
         return [...prev, city];
       });
     }
-
     if (city.lat && city.lon) {
       setFlyTo({ lat: city.lat, lon: city.lon });
     }
@@ -123,7 +120,7 @@ function App() {
             key={city.city}
             city={city}
             onClick={setSelectedCity}
-            forecast={forecasts[city.city]} 
+            forecast={forecasts[city.city]}
           />
         ))}
       </div>
@@ -137,11 +134,13 @@ function App() {
           boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
         }}>
           <TrendChart cityName={selectedCity.city} />
-          <ForecastChart 
+          <ForecastChart
             cityName={selectedCity.city}
-            currentScore={selectedCity.pulse_score} />
+            currentScore={selectedCity.pulse_score}
+          />
         </div>
       )}
+
       <CityComparison />
     </div>
   );
