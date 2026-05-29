@@ -1,74 +1,252 @@
-<<<<<<< HEAD
-# Getting Started with Create React App
+# 🌆 City Pulse
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A real-time city analytics platform that aggregates weather, air quality, and event data into a single Pulse Score (0–100), helping users understand how vibrant, comfortable, and active a city feels at any moment.
 
-## Available Scripts
+Built with FastAPI, PostgreSQL, React, machine learning forecasting, and AI-generated city mood summaries.
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## 🚀 Live Demo
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+**Frontend:** https://project-s9n4g.vercel.app
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+**Backend API:** https://city-pulse-production-5856.up.railway.app
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## ✨ Features
 
-### `npm run build`
+- Real-time weather monitoring
+- Air quality tracking and AQI analysis
+- Event density monitoring
+- Custom Pulse Score algorithm
+- AI-generated city mood summaries
+- Historical trend analysis
+- 24-hour forecasting using Facebook Prophet
+- Dynamic city search
+- Automated data collection every 15 minutes
+- Interactive dashboard and map visualizations
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 🏗️ Data Flow
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```text
+Weather API ─┐
+             │
+Air Quality ─┼──► Data Pipeline ─► Pulse Score Engine ─► PostgreSQL
+             │                                      │
+Events API ──┘                                      │
+                                                     ▼
+                                         FastAPI Backend
+                                                     │
+                          ┌──────────────────────────┼──────────────────────────┐
+                          ▼                          ▼                          ▼
+                  AI Summaries              Historical Trends          ML Forecasts
+                                                     │
+                                                     ▼
+                                            React Dashboard
+```
 
-### `npm run eject`
+---
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## 🛠 Tech Stack
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Backend
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- Python
+- FastAPI
+- SQLAlchemy
+- PostgreSQL
+- APScheduler
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Frontend
 
-## Learn More
+- React
+- Axios
+- Recharts
+- Leaflet
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### AI & Machine Learning
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+- Groq API (Llama 3)
+- Facebook Prophet
 
 ### Deployment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+- Railway
+- Vercel
 
-### `npm run build` fails to minify
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-=======
-# City-Pulse
->>>>>>> d6f3969ec4955775437bc5afb5cc288bce516df0
+## 📊 Pulse Score Algorithm
+
+City Pulse converts raw environmental signals into a score from **0–100**.
+
+### Weather Score
+
+Based on:
+
+- Temperature comfort
+- Humidity
+- Wind speed
+- Weather conditions
+
+### Air Quality Score
+
+Based on:
+
+- AQI levels
+- PM2.5 concentrations
+- Pollution severity
+
+### Event Score
+
+Based on:
+
+- Event count
+- City activity level
+
+### Final Formula
+
+```text
+Pulse Score =
+(Weather Score × Weight)
++ (Air Quality Score × Weight)
++ (Event Score × Weight)
+```
+
+Scores are normalized and clamped between 0 and 100.
+
+---
+
+## 🤖 AI Mood Summaries
+
+City Pulse uses Groq's Llama 3 model to generate natural-language descriptions of a city's current atmosphere.
+
+Example:
+
+> "Lucknow feels lively this evening with pleasant weather, moderate air quality, and several ongoing events contributing to a vibrant city vibe."
+
+To reduce latency and API usage, summaries are cached for 30 minutes.
+
+---
+
+## 📈 Forecasting
+
+The platform uses Facebook Prophet to forecast Pulse Scores for the next 24 hours.
+
+Features:
+
+- Daily seasonality detection
+- Confidence intervals
+- Historical trend learning
+- Forecast caching for improved performance
+
+---
+
+## 📡 API Endpoints
+
+| Method | Endpoint | Description |
+|----------|----------|-------------|
+| GET | `/api/dashboard` | All tracked cities |
+| GET | `/api/pulse/{city}` | Latest city data |
+| GET | `/api/search/{city}` | Search and save a city |
+| GET | `/api/trend/{city}` | Historical trends |
+| GET | `/api/history/{city}` | Weather and AQI history |
+| GET | `/api/daily/{city}` | Daily summary |
+| GET | `/api/comparison` | City rankings |
+| GET | `/api/forecast/{city}` | 24-hour forecast |
+| GET | `/api/forecast` | Forecasts for all cities |
+
+---
+
+## 🗄 Database Schema
+
+### Core Tables
+
+```sql
+cities
+weather_snapshots
+air_quality_snapshots
+events_snapshots
+pulse_scores
+```
+
+All records are timestamped and stored for historical analysis and forecasting.
+
+---
+
+## ⚙️ Local Setup
+
+### Clone Repository
+
+```bash
+git clone https://github.com/jagzgotspark/City-Pulse.git
+cd City-Pulse
+```
+
+### Create Virtual Environment
+
+```bash
+python -m venv venv
+source venv/bin/activate
+```
+
+### Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### Configure Environment Variables
+
+Create a `.env` file:
+
+```env
+OPENWEATHER_API_KEY=your_key
+PREDICTHQ_TOKEN=your_token
+GROQ_API_KEY=your_key
+DATABASE_URL=your_database_url
+```
+
+### Start Backend
+
+```bash
+uvicorn src.api.main:app --reload
+```
+
+### Start Scheduler
+
+```bash
+python3 -m src.scheduler
+```
+
+---
+
+## 🎯 Engineering Challenges Solved
+
+- Designed a weighted scoring algorithm that models real-world city livability
+- Built an automated multi-source data ingestion pipeline
+- Stored and queried time-series analytics data using PostgreSQL
+- Reduced AI response latency through caching
+- Implemented machine learning forecasting on continuously collected city data
+- Enabled on-demand city discovery and persistence
+
+---
+
+## 📌 Future Improvements
+
+- Neighborhood-level analytics
+- Additional environmental indicators
+- User personalization
+- Real-time alerting system
+- Advanced forecasting models
+
+---
+
+## 👩‍💻 Author
+
+**Jagriti Singh**
+
+Built as a full-stack data engineering, analytics, and machine learning project focused on transforming raw city data into meaningful real-time insights.
