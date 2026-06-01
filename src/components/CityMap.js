@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { MapContainer, TileLayer, CircleMarker, Popup, Tooltip } from 'react-leaflet';
 import { useMap } from 'react-leaflet';
 
@@ -36,6 +36,7 @@ function ZoomHandler({ cities, onZoomChange }) {
   useEffect(() => {
     const handleZoom = () => onZoomChange(map.getZoom(), map.getCenter());
     map.on('zoomend', handleZoom);
+    handleZoom(); // fire once on mount
     return () => map.off('zoomend', handleZoom);
   }, [map, onZoomChange]);
   return null;
@@ -45,7 +46,7 @@ function CityMap({ cities, flyTo }) {
   const [neighbourhoods, setNeighbourhoods] = useState({});
   const [zoomedCity, setZoomedCity] = useState(null);
 
-  const handleZoomChange = (zoom, center) => {
+   const handleZoomChange = useCallback((zoom, center) => {
     if (zoom < 8) {
       setZoomedCity(null);
       return;
@@ -70,7 +71,7 @@ function CityMap({ cities, flyTo }) {
         })
         .catch(() => {});
     }
-  };
+  }, [cities, neighbourhoods]);
 
   const activeNeighbourhoods = zoomedCity && neighbourhoods[zoomedCity]
     ? neighbourhoods[zoomedCity]
