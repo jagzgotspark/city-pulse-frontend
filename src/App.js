@@ -49,7 +49,10 @@ function App() {
     const alreadyInDashboard = dashboard?.cities?.find(
       c => c.city.toLowerCase() === city.city.toLowerCase()
     );
-    if (!alreadyInDashboard) {
+    const alreadySearched = searchedCities.find(
+      c => c.city.toLowerCase() === city.city.toLowerCase()
+    );
+    if (!alreadyInDashboard && !alreadySearched) {
       setSearchedCities(prev => {
         const exists = prev.find(c => c.city === city.city);
         if (exists) return prev.map(c => c.city === city.city ? city : c);
