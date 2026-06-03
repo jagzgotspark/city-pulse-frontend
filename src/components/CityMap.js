@@ -30,7 +30,6 @@ function ZoomHandler({ cities, onZoomChange }) {
   const map = useMap();
   useEffect(() => {
     const handleZoom = () => {
-      console.log('zoom level:', map.getZoom());
       onZoomChange(map.getZoom(), map.getCenter());
     };
     map.on('zoomend', handleZoom);
