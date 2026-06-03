@@ -15,11 +15,6 @@ function getRadius(score) {
   return minRadius + (score / 100) * (maxRadius - minRadius);
 }
 
-function getPulseClass(score) {
-  if (score >= 70) return 'pulse-high';
-  if (score >= 40) return 'pulse-mid';
-  return 'pulse-low';
-}
 
 function FlyToHandler({ flyTo }) {
   const map = useMap();
