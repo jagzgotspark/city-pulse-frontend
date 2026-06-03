@@ -92,7 +92,7 @@ function CityMap({ cities, flyTo }) {
 
         {/* City circles — hide the zoomed city */}
         {cities && cities.map(city => (
-          zoomedCity === city.city ? null : (
+          (zoomedCity === city.city && activeNeighbourhoods) ? null : (
             <CircleMarker
               key={city.city}
               center={[city.lat, city.lon]}
