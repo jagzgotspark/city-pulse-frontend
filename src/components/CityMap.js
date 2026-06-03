@@ -34,9 +34,12 @@ function FlyToHandler({ flyTo }) {
 function ZoomHandler({ cities, onZoomChange }) {
   const map = useMap();
   useEffect(() => {
-    const handleZoom = () => onZoomChange(map.getZoom(), map.getCenter());
+    const handleZoom = () => {
+      console.log('zoom level:', map.getZoom());
+      onZoomChange(map.getZoom(), map.getCenter());
+    };
     map.on('zoomend', handleZoom);
-    handleZoom(); // fire once on mount
+    handleZoom();
     return () => map.off('zoomend', handleZoom);
   }, [map, onZoomChange]);
   return null;
