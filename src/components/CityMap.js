@@ -121,7 +121,7 @@ function CityMap({ cities, flyTo }) {
           <CircleMarker
             key={n.neighbourhood}
             center={[n.lat, n.lon]}
-            radius={12}
+            radius={18}
             fillColor={getPulseColor(n.pulse_score)}
             fillOpacity={0.85}
             color={getPulseColor(n.pulse_score)}
