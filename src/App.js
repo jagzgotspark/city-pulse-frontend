@@ -65,7 +65,7 @@ function App() {
     }
   };
 
-if (window.location.pathname === '/admin') return <Admin />;
+if (window.location.search.includes('admin=true')) return <Admin />;
 if (loading) return (
     <div style={{
       padding: '40px',
