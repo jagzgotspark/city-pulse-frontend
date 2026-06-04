@@ -97,6 +97,10 @@ function CityMap({ cities, flyTo }) {
               key={city.city}
               center={[city.lat, city.lon]}
               radius={getRadius(city.pulse_score)}
+              className={
+                city.pulse_score >= 70 ? 'pulse-high' :
+                city.pulse_score >= 40 ? 'pulse-mid' : 'pulse-low'
+              }
               fillColor={getPulseColor(city.pulse_score)}
               fillOpacity={0.75}
               color={getPulseColor(city.pulse_score)}
