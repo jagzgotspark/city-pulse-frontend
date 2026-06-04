@@ -24,4 +24,19 @@
   "theme_color": "#0f172a",
   "background_color": "#f8fafc",
   "orientation": "portrait"
+  "screenshots": [
+    {
+      "src": "logo512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "City Pulse Dashboard"
+    },
+    {
+      "src": "logo512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "label": "City Pulse Mobile"
+    }
+  ]
 }
