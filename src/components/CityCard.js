@@ -1,5 +1,5 @@
 import PulseGauge from './PulseGauge';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { downloadCityCard, copyCityCardToClipboard } from '../utils/generateCityCard';
 
 function ShareButton({ label, onClick }) {
@@ -41,6 +41,16 @@ function getPulseLabel(score) {
 
 function CityCard({ city, onClick, forecast}) {
   const color = getPulseColor(city.pulse_score);
+  const [similarCities, setSimilarCities] = useState([]);
+
+  useEffect(() => {
+    fetch(`${process.env.REACT_APP_API_URL}/similar/${city.city}`)
+      .then(r => r.json())
+      .then(data => {
+        if (data.similar) setSimilarCities(data.similar);
+      })
+      .catch(() => {});
+  }, [city.city]);
 
   return (
     <div
@@ -187,7 +197,36 @@ function CityCard({ city, onClick, forecast}) {
 
         </div>
       </div>
-          
+
+      {similarCities.length > 0 && (
+        <div style={{ marginTop: '12px', borderTop: '1px solid #f0f0f0', paddingTop: '12px' }}>
+          <div style={{ fontSize: '11px', color: '#94a3b8', fontWeight: '600', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+            Similar vibe right now
+          </div>
+          <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+            {similarCities.map(s => (
+              <div key={s.city} style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '5px',
+                backgroundColor: '#f8fafc',
+                border: '1px solid #e2e8f0',
+                borderRadius: '20px',
+                padding: '3px 10px',
+                fontSize: '12px'
+              }}>
+                <div style={{
+                  width: '6px', height: '6px', borderRadius: '50%',
+                  backgroundColor: getPulseColor(s.pulse_score)
+                }} />
+                <span style={{ fontWeight: '600', color: '#334155' }}>{s.city}</span>
+                <span style={{ color: '#94a3b8' }}>{s.pulse_score}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
