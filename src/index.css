@@ -9,7 +9,9 @@
   display: none !important;
 }
 
-
+.leaflet-tile-pane {
+  opacity: 1 !important;
+}
 
 body {
   margin: 0;

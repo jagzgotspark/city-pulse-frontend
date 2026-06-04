@@ -1,3 +1,4 @@
+import Admin from './pages/Admin';
 import { useState, useEffect } from 'react';
 import { getDashboard, getAllForecasts } from './api';
 import CityCard from './components/CityCard';
@@ -64,6 +65,7 @@ function App() {
     }
   };
 
+if (window.location.pathname === '/admin') return <Admin />;
 if (loading) return (
     <div style={{
       padding: '40px',
