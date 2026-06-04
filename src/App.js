@@ -64,17 +64,17 @@ function App() {
     }
   };
 
-  if (loading) return (
+if (loading) return (
     <div style={{
       padding: '40px',
       fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif',
-      backgroundColor: '#f1f5f9',
+      backgroundColor: '#f8fafc',
       minHeight: '100vh',
-      maxWidth: '1100px',
+      maxWidth: '1180px',
       margin: '0 auto'
     }}>
-      <h1 style={{ fontSize: '36px', fontWeight: '800', margin: 0 }}>🌆 City Pulse</h1>
-      <p style={{ color: '#64748b', marginTop: '8px' }}>Generating city summaries...</p>
+      <h1 style={{ fontSize: '42px', fontWeight: '800', margin: 0, letterSpacing: '-1px', color: '#0f172a' }}>🌆 City Pulse</h1>
+      <p style={{ color: '#64748b', marginTop: '8px' }}>Loading city data...</p>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px', marginTop: '32px' }}>
         {[1, 2, 3].map(i => (
           <div key={i} style={{ height: '300px', backgroundColor: '#e2e8f0', borderRadius: '16px', opacity: 0.6 }} />
@@ -92,26 +92,77 @@ function App() {
 
   return (
     <div style={{
-      padding: '40px',
-      fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif',
-      backgroundColor: '#f1f5f9',
+      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+      backgroundColor: '#f8fafc',
       minHeight: '100vh',
-      maxWidth: '1100px',
-      margin: '0 auto'
     }}>
-      <div style={{ marginBottom: '40px' }}>
-        <h1 style={{ fontSize: '36px', fontWeight: '800', margin: 0 }}>
-          🌆 City Pulse
-        </h1>
-        <p style={{ color: '#64748b', marginTop: '8px', marginBottom: '4px' }}>
-          Real-time city energy scores across India
-        </p>
-        <p style={{ color: '#22c55e', fontSize: '12px', margin: 0 }}>
-          ● Live — updates every 15 minutes
-        </p>
+      {/* Top nav bar */}
+      <div style={{
+        borderBottom: '1px solid #e2e8f0',
+        backgroundColor: 'white',
+        padding: '0 40px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        height: '64px',
+        position: 'sticky',
+        top: 0,
+        zIndex: 2000,
+        boxShadow: '0 1px 3px rgba(0,0,0,0.04)'
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <span style={{ fontSize: '24px' }}>🌆</span>
+          <span style={{ fontSize: '18px', fontWeight: '700', letterSpacing: '-0.3px', color: '#0f172a' }}>
+            City Pulse
+          </span>
+          <span style={{
+            fontSize: '11px',
+            fontWeight: '500',
+            color: '#64748b',
+            backgroundColor: '#f1f5f9',
+            padding: '3px 10px',
+            borderRadius: '20px',
+            marginLeft: '4px'
+          }}>
+            India
+          </span>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <div style={{ width: '7px', height: '7px', borderRadius: '50%', backgroundColor: '#22c55e' }} />
+          <span style={{ fontSize: '12px', color: '#64748b', fontWeight: '500' }}>
+            Live · updates every 15 min
+          </span>
+        </div>
       </div>
 
-      <CitySearch onCityFound={handleCityFound} />
+      {/* Hero section */}
+      <div style={{
+        backgroundColor: 'white',
+        borderBottom: '1px solid #e2e8f0',
+        padding: '48px 40px 40px',
+        maxWidth: '1180px',
+        margin: '0 auto',
+      }}>
+        <div style={{ maxWidth: '560px' }}>
+          <h1 style={{
+            fontSize: '42px',
+            fontWeight: '800',
+            margin: '0 0 12px',
+            color: '#0f172a',
+            letterSpacing: '-1px',
+            lineHeight: 1.1
+          }}>
+            The pulse of every<br />Indian city, live.
+          </h1>
+          <p style={{ fontSize: '16px', color: '#64748b', margin: '0 0 28px', lineHeight: 1.6 }}>
+            Real-time energy scores combining weather, air quality, and city activity — updated every 15 minutes.
+          </p>
+          <CitySearch onCityFound={handleCityFound} />
+        </div>
+      </div>
+
+      {/* Main content */}
+      <div style={{ maxWidth: '1180px', margin: '0 auto', padding: '32px 40px 60px' }}>
 
       <div style={{ marginBottom: '32px' }}>
         <CityMap cities={allCities} flyTo={flyTo} />
@@ -145,7 +196,8 @@ function App() {
       )}
 
       <CityComparison />
-    </div>
+      </div> 
+    </div>   
   );
 }
 
