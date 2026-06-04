@@ -23,7 +23,7 @@
   "display": "standalone",
   "theme_color": "#0f172a",
   "background_color": "#f8fafc",
-  "orientation": "portrait"
+  "orientation": "portrait",
   "screenshots": [
     {
       "src": "logo512.png",
