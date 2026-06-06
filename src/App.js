@@ -6,6 +6,7 @@ import TrendChart from './components/TrendChart';
 import CityMap from './components/CityMap';
 import CitySearch from './components/CitySearch';
 import CityComparison from './components/CityComparison';
+import CityVsCity from './components/CityVsCity';
 import ForecastChart from './components/ForecastChart';
 
 function App() {
@@ -66,6 +67,7 @@ function App() {
   };
 
 if (window.location.search.includes('admin=true')) return <Admin />;
+
 if (loading) return (
     <div style={{
       padding: '40px',
@@ -198,6 +200,7 @@ if (loading) return (
       )}
 
       <CityComparison />
+      <CityVsCity cities={allCities} />
       </div> 
     </div>   
   );
