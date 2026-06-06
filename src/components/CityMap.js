@@ -48,11 +48,14 @@ function HeatmapLayer({ cities, visible }) {
       .filter(c => c.lat && c.lon && c.pulse_score)
       .map(c => [c.lat, c.lon, c.pulse_score / 100]);
     const heat = L.heatLayer(points, {
-      radius: 60,
-      blur: 40,
-      maxZoom: 8,
+      radius: 80,
+      blur: 50,
+      maxZoom: 10,
+      minOpacity: 0.6,
+      max: 0.5,
       gradient: { 0.0: '#ef4444', 0.4: '#f59e0b', 0.7: '#22c55e', 1.0: '#16a34a' }
     }).addTo(map);
+
     return () => map.removeLayer(heat);
   }, [map, cities, visible]);
   return null;
