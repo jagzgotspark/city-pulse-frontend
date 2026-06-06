@@ -2,7 +2,6 @@ import { useEffect, useState, useCallback } from 'react';
 import { MapContainer, TileLayer, CircleMarker, Popup, Tooltip } from 'react-leaflet';
 import { useMap } from 'react-leaflet';
 import L from 'leaflet';
-import 'leaflet.heat';
 
 function getPulseColor(score) {
   if (score >= 70) return '#22c55e';
