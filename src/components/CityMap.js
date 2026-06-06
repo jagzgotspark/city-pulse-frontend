@@ -39,7 +39,26 @@ function ZoomHandler({ cities, onZoomChange }) {
   return null;
 }
 
+function HeatmapLayer({ cities, visible }) {
+  const map = useMap();
+  useEffect(() => {
+    if (!visible || !cities?.length) return;
+    const points = cities
+      .filter(c => c.lat && c.lon && c.pulse_score)
+      .map(c => [c.lat, c.lon, c.pulse_score / 100]);
+    const heat = window.L.heatLayer(points, {
+      radius: 60,
+      blur: 40,
+      maxZoom: 8,
+      gradient: { 0.0: '#ef4444', 0.4: '#f59e0b', 0.7: '#22c55e', 1.0: '#16a34a' }
+    }).addTo(map);
+    return () => map.removeLayer(heat);
+  }, [map, cities, visible]);
+  return null;
+}
+
 function CityMap({ cities, flyTo }) {
+  const [heatmap, setHeatmap] = useState(false);
   const [neighbourhoods, setNeighbourhoods] = useState({});
   const [zoomedCity, setZoomedCity] = useState(null);
 
@@ -89,9 +108,10 @@ function CityMap({ cities, flyTo }) {
         />
         <FlyToHandler flyTo={flyTo} />
         <ZoomHandler cities={cities} onZoomChange={handleZoomChange} />
+        <HeatmapLayer cities={cities} visible={heatmap} />
 
         {/* City circles — hide the zoomed city */}
-        {cities && cities.map(city => (
+        {!heatmap && cities && cities.map(city => (
           (zoomedCity === city.city && activeNeighbourhoods) ? null : (
             <CircleMarker
               key={city.city}
@@ -162,6 +182,23 @@ function CityMap({ cities, flyTo }) {
       <div style={{ position: 'absolute', top: '16px', left: '16px', backgroundColor: 'rgba(0,0,0,0.7)', borderRadius: '8px', padding: '8px 14px', zIndex: 1000, backdropFilter: 'blur(4px)' }}>
         <div style={{ color: 'white', fontWeight: '700', fontSize: '14px' }}>🌆 City Pulse — Live</div>
         <div style={{ color: '#22c55e', fontSize: '11px', marginTop: '2px' }}>● Updates every 15 minutes</div>
+        <button
+          onClick={() => setHeatmap(h => !h)}
+          style={{
+            marginTop: '8px',
+            padding: '4px 10px',
+            borderRadius: '6px',
+            border: 'none',
+            backgroundColor: heatmap ? '#22c55e' : 'rgba(255,255,255,0.15)',
+            color: 'white',
+            fontSize: '11px',
+            fontWeight: '600',
+            cursor: 'pointer',
+            width: '100%'
+          }}
+        >
+          {heatmap ? '🔥 Heatmap ON' : '🔥 Heatmap'}
+        </button>
       </div>
 
       {/* legend */}
