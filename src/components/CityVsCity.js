@@ -42,7 +42,7 @@ export default function CityVsCity({ cities }) {
       setCityA(cityNames[0]);
       setCityB(cityNames[1]);
     }
-  }, [cities]);
+  }, [cities, cityA, cityB, cityNames]);
 
   useEffect(() => {
     if (!cityA || !cityB) return;
