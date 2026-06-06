@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 
 const API = process.env.REACT_APP_API_URL;
 
@@ -30,7 +30,7 @@ function MetricRow({ label, a, b, unit = '', higherIsBetter = true }) {
 }
 
 export default function CityVsCity({ cities }) {
-  const cityNames = cities?.map(c => c.city) || [];
+  const cityNames = useMemo(() => cities?.map(c => c.city) || [], [cities]);
   const [cityA, setCityA] = useState('');
   const [cityB, setCityB] = useState('');
   const [dataA, setDataA] = useState(null);
