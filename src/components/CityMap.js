@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { MapContainer, TileLayer, CircleMarker, Popup, Tooltip } from 'react-leaflet';
 import { useMap } from 'react-leaflet';
-
+import L from 'leaflet';
 
 function getPulseColor(score) {
   if (score >= 70) return '#22c55e';
@@ -46,7 +46,7 @@ function HeatmapLayer({ cities, visible }) {
     const points = cities
       .filter(c => c.lat && c.lon && c.pulse_score)
       .map(c => [c.lat, c.lon, c.pulse_score / 100]);
-    const heat = window.L.heatLayer(points, {
+    const heat = L.heatLayer(points, {
       radius: 60,
       blur: 40,
       maxZoom: 8,
