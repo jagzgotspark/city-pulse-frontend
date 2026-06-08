@@ -32,7 +32,18 @@ function App() {
     };
 
     fetchData();
-    const interval = setInterval(fetchData, 60000);
+
+    const wsUrl = process.env.REACT_APP_API_URL
+      .replace('https://', 'wss://')
+      .replace('http://', 'ws://')
+      .replace('/api', '');
+    const ws = new WebSocket(`${wsUrl}/ws/dashboard`);
+    ws.onmessage = (event) => {
+      const msg = JSON.parse(event.data);
+      if (msg.type === 'dashboard_update') {
+        fetchData();
+      }
+    };
 
     getAllForecasts()
       .then(data => {
@@ -44,7 +55,7 @@ function App() {
       })
       .catch(() => {});
 
-    return () => clearInterval(interval);
+    return () => ws.close();
   }, []);
 
   const handleCityFound = (city) => {
