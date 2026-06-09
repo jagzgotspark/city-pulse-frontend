@@ -8,6 +8,7 @@ import CitySearch from './components/CitySearch';
 import CityComparison from './components/CityComparison';
 import CityVsCity from './components/CityVsCity';
 import ForecastChart from './components/ForecastChart';
+import PulseLeaderboard from './components/PulseLeaderboard';
 
 function App() {
   const [dashboard, setDashboard] = useState(null);
@@ -150,38 +151,24 @@ if (loading) return (
         </div>
       </div>
 
-      {/* Hero section */}
-      <div style={{
-        backgroundColor: 'white',
-        borderBottom: '1px solid #e2e8f0',
-        padding: '48px 40px 40px',
-        maxWidth: '1180px',
-        margin: '0 auto',
-      }}>
-        <div style={{ maxWidth: '560px' }}>
-          <h1 style={{
-            fontSize: '42px',
-            fontWeight: '800',
-            margin: '0 0 12px',
-            color: '#0f172a',
-            letterSpacing: '-1px',
-            lineHeight: 1.1
-          }}>
-            The pulse of every<br />Indian city, live.
-          </h1>
-          <p style={{ fontSize: '16px', color: '#64748b', margin: '0 0 28px', lineHeight: 1.6 }}>
-            Real-time energy scores combining weather, air quality, and city activity — updated every 15 minutes.
-          </p>
-          <CitySearch onCityFound={handleCityFound} />
-        </div>
-      </div>
+      {/* Leaderboard */}
+      <PulseLeaderboard cities={allCities} />
 
       {/* Main content */}
       <div style={{ maxWidth: '1180px', margin: '0 auto', padding: '32px 40px 60px' }}>
 
+      {/* Search */}
+      <div style={{ marginBottom: '24px' }}>
+        <CitySearch onCityFound={handleCityFound} />
+      </div>
+
+      {/* Map */}
       <div style={{ marginBottom: '32px' }}>
         <CityMap cities={allCities} flyTo={flyTo} />
       </div>
+
+
+
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px' }}>
         {allCities.map(city => (
